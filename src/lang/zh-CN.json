@@ -1,0 +1,33 @@
+{
+  "action": {
+    "close": "关闭"
+  },
+  "language": {
+    "index": "多语言",
+    "intro": "barroit为本站提供以下语言版本 (不影响文章语言):",
+    "change": {
+      "tip": "变更语言, 当前为"
+    }
+  },
+  "color": {
+    "change": {
+      "tip": "切换配色方案, 当前为"
+    },
+    "dark": "深色模式",
+    "light": "亮色模式"
+  },
+  "toggle": {
+    "menu": "切换菜单",
+    "scheme": "切换配色方案",
+    "language": "切换语言"
+  },
+  "navigation": {
+    "home": "主页",
+    "blog": "博客",
+    "media": "媒体",
+    "project": "项目"
+  },
+  "other": {
+    "source": "源码"
+  }
+}

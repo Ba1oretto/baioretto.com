@@ -1,0 +1,33 @@
+{
+  "action": {
+    "close": "戻る"
+  },
+  "language": {
+    "index": "多言語",
+    "intro": "このサイトは次の言語で利用できます (文章には影響しない):",
+    "change": {
+      "tip": "言語を変更, 現在は"
+    }
+  },
+  "color": {
+    "change": {
+      "tip": "配色を切り替え, いまは"
+    },
+    "dark": "ダークモード",
+    "light": "ライトモード"
+  },
+  "toggle": {
+    "menu": "スイッチメニュー",
+    "scheme": "配色を切り替える",
+    "language": "言語を選択"
+  },
+  "navigation": {
+    "home": "主頁",
+    "blog": "ブログ",
+    "media": "媒体",
+    "project": "企画"
+  },
+  "other": {
+    "source": "ソースコード"
+  }
+}
