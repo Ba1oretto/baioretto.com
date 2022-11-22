@@ -1,45 +1,48 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { createContext, useEffect, useLayoutEffect, useRef, useState } from "react";
-import useDarkMode from "./hook/useDarkMode";
+import React, { createContext, useCallback, useEffect, useRef, useState } from "react";
 import PageHeader from "./component/header/PageHeader";
 import PageFooter from "./component/footer/PageFooter";
 import PageContent from "./component/container/PageContent";
 import PageModal from "./component/modal/PageModal";
-import { DomElementContext } from "./type";
+import type { DomModalContext } from "./type";
+import classNames from "classnames";
 
-export const ElRefs = createContext<DomElementContext | undefined>(undefined);
+type NavbarState = {
+  isNavbarActive: boolean,
+  setNavbarActive: React.Dispatch<React.SetStateAction<boolean>>,
+  toggleNavbarState: () => void,
+}
+
+export const ModalContext = createContext<DomModalContext>({} as DomModalContext);
+export const NavbarContext = createContext<NavbarState>({} as NavbarState);
 
 function App() {
-  const [modalClassName, setModalClassName] = useState<string>("opacity-0 pointer-events-none");
-  const [isDarkMode] = useDarkMode(true);
+  const modalObject = useRef<DomModalContext>({} as DomModalContext);
+  const [modalState, setModalState] = useState<DomModalContext>({} as DomModalContext);
+  const [isNavbarActive, setNavbarActive] = useState(false);
 
-  const modalRef = useRef<HTMLDivElement>({} as HTMLDivElement);
-  const bodyRef = useRef<HTMLBodyElement>({} as HTMLBodyElement);
-  const rootRef = useRef<HTMLDivElement>({} as HTMLDivElement);
-
-  useLayoutEffect(() => {
-    rootRef.current = document.getElementById("root") as HTMLDivElement;
-    bodyRef.current = document.body as HTMLBodyElement;
+  const toggleNavbarState = useCallback(() => {
+    setNavbarActive(prevState => !prevState);
   }, []);
 
   useEffect(() => {
-    const root = rootRef.current;
-    if (isDarkMode) root.classList.add("dark");
-    else root.classList.remove("dark");
-  }, [isDarkMode]);
+    setModalState({
+      ref: modalObject.current.ref,
+      setClassList: modalObject.current.setClassList,
+      backToDefault: modalObject.current.backToDefault,
+    });
+  }, [modalObject]);
 
   return (
-    <div className={"min-h-screen grid grid-rows-body dark:bg-dark-bg dark:text-dark-text"}>
-      <ElRefs.Provider value={{
-        modalReference: { modal: modalRef, setter: setModalClassName },
-        rootReference: rootRef,
-        bodyReference: bodyRef,
-      }}>
-        <PageHeader />
+    <div
+      className={classNames("min-h-screen grid grid-rows-body dark:bg-dark-bg dark:text-dark-text", { "navbar-open": isNavbarActive })}>
+      <ModalContext.Provider value={modalState}>
+        <NavbarContext.Provider value={{ isNavbarActive, setNavbarActive, toggleNavbarState }}>
+          <PageHeader />
+        </NavbarContext.Provider>
         <PageContent />
         <PageFooter />
-      </ElRefs.Provider>
-      <PageModal ref={modalRef} className={modalClassName} />
+      </ModalContext.Provider>
+      <PageModal ref={modalObject} />
     </div>
   );
 }

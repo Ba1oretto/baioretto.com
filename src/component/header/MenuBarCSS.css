@@ -1,9 +1,0 @@
-@screen mobile {
-    #header-nav .menu {
-        @apply pointer-events-none invisible absolute top-0 left-0 right-0 bg-black px-3 py-6 opacity-0 transition-all
-    }
-
-    #header-nav.open .menu {
-        @apply pointer-events-auto visible top-full opacity-100
-    }
-}

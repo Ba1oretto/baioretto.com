@@ -1,7 +1,6 @@
 import * as languages from "../lang";
 import { useLocalStorage } from "usehooks-ts";
-
-export type Lang = "en" | `zh${"CN" | "TW"}` | "ja";
+import type { Lang } from "../type";
 
 // TODO bad code I've ever seen, please use types :(
 function getNestedTranslation(lang: Lang, keys: string[]): string {

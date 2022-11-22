@@ -1,11 +1,9 @@
-import React, { createContext, useCallback, useContext, useState } from "react";
-import ToggleMenuBtn from "./ToggleMenuBtn";
-import classNames from "classnames";
-import { ElRefs } from "../../App";
-import { DomElementContext } from "../../type";
-import NavigatorList from "./NavigatorList";
+import React, { useContext } from "react";
+import Navigator from "./Navigator";
+import "./header.css";
+import useTranslation from "../../hook/useTranslation";
+import { NavbarContext } from "../../App";
 import ToolBar from "./ToolBar";
-import "./MenuBarCSS.css";
 
 export const headerCSS = {
   ul: "md:flex md:justify-center md:items-center",
@@ -14,46 +12,32 @@ export const headerCSS = {
   btn: "rounded-md lg:rounded-2/4 flex w-full items-center transition-colors p-6 md:p-4 hover:bg-yellow-550 hover:text-amber-800 md:hover:bg-gray-500 md:hover:text-inherit",
 };
 
-type MenuCondition = {
-  visible: boolean
-  setVisible: (condition?: boolean) => void
-}
-
-const ToggleVisibility = createContext<MenuCondition>({} as MenuCondition);
-
-export default function PageHeader() {
-  const [isOpen, setOpen] = useState(false);
-  const { bodyReference } = useContext(ElRefs) as DomElementContext;
-
-  const setOverflow = useCallback((condition: boolean) => {
-    condition ? bodyReference.current.classList.add("mobile:overflow-hidden") : bodyReference.current.classList.remove("mobile:overflow-hidden");
-    // eslint-disable-next-line
-  }, []);
-
-  const handleMenuToggle = useCallback((condition?: boolean) => {
-    if (typeof condition === "boolean") {
-      setOverflow(condition);
-      setOpen(condition);
-    } else setOpen(open => {
-      setOverflow(!open);
-      return !open;
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+function ToggleMenuBtn() {
+  const { toggleNavbarState } = useContext(NavbarContext);
+  const { t } = useTranslation();
 
   return (
-    <header className={"lg:py-6 sticky flex items-center top-0 bg-dark-test/80 backdrop-blur-sm"}>
-      <ToggleVisibility.Provider value={{ visible: isOpen, setVisible: handleMenuToggle }}>
-        <nav id="header-nav" className={classNames("z-40 container mx-auto", { "open": isOpen })}>
-          <ToggleMenuBtn />
-          <div className={"menu flex md:items-center justify-between flex-col md:flex-row uppercase tracking-wide"}>
-            <NavigatorList />
-            <ToolBar />
-          </div>
-        </nav>
-      </ToggleVisibility.Provider>
-    </header>
+    <div className={"cursor-pointer flex items-center block lg:hidden py-8 pl-4"} onClick={toggleNavbarState}>
+      <div id="animated-bar" className={"select-none"}>
+        <div className="bar" />
+        <div className="bar" />
+        <div className="bar" />
+      </div>
+      <span className="font-bold ml-4 text-white text-xl">{t("toggle.menu")}</span>
+    </div>
   );
 }
 
-export { ToggleVisibility };
+export default function PageHeader() {
+  return (
+    <header className={"lg:py-6 sticky mobile:relative flex items-center top-0 bg-dark-frost/80 backdrop-blur-sm"}>
+      <nav id="header-nav" className="container mobile:max-w-full lg:mx-auto">
+        <ToggleMenuBtn />
+        <div className={"menu flex md:items-center justify-between flex-col md:flex-row uppercase tracking-wide"}>
+          <Navigator />
+          <ToolBar />
+        </div>
+      </nav>
+    </header>
+  );
+}

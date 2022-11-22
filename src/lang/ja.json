@@ -18,8 +18,8 @@
   },
   "toggle": {
     "menu": "スイッチメニュー",
-    "scheme": "配色を切り替える",
-    "language": "言語を選択"
+    "scheme": "配色",
+    "language": "言語"
   },
   "navigation": {
     "home": "主頁",
@@ -29,5 +29,12 @@
   },
   "other": {
     "source": "ソースコード"
+  },
+  "date": {
+    "deploy": "deployed since",
+    "day": "日",
+    "hour": "時",
+    "minute": "分",
+    "second": "秒"
   }
 }

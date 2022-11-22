@@ -1,27 +1,14 @@
-import { Dispatch, MutableRefObject, ReactNode, SetStateAction } from "react";
+import React from "react";
 
-
-export declare interface ElementClass {
-  elementClass?: string;
+export declare interface DomModalContext {
+  ref: React.MutableRefObject<HTMLDivElement>;
+  setClassList: React.Dispatch<React.SetStateAction<string>>,
+  backToDefault: () => void,
 }
 
-export declare interface ElementChildren {
-  children: ReactNode;
+export declare interface ComponentEntry {
+  name: string;
+  component: JSX.Element;
 }
 
-export declare interface ClassAndChildren extends ElementClass, ElementChildren {
-}
-
-declare interface StateSetter<T> {
-  setter: Dispatch<SetStateAction<T>>;
-}
-
-export declare interface DomModalContext extends StateSetter<string> {
-  modal: MutableRefObject<HTMLDivElement>;
-}
-
-export declare interface DomElementContext {
-  modalReference: DomModalContext;
-  rootReference: MutableRefObject<HTMLDivElement>;
-  bodyReference: MutableRefObject<HTMLBodyElement>;
-}
+export type Lang = "en" | `zh${"CN" | "TW"}` | "ja";

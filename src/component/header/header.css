@@ -1,0 +1,41 @@
+@screen mobile {
+    #header-nav .menu {
+        @apply pointer-events-none invisible absolute top-0 left-0 right-0 bg-black px-3 py-6 opacity-0 transition-all
+    }
+
+    .navbar-open #header-nav .menu {
+        @apply pointer-events-auto visible top-full opacity-100
+    }
+}
+
+.navbar-open #animated-bar .bar:nth-of-type(1) {
+    transform: rotate(45deg);
+    top: 10px;
+}
+
+.navbar-open #animated-bar .bar:nth-of-type(2) {
+    transform: rotate(180deg);
+    opacity: 0;
+}
+
+#animated-bar .bar:nth-of-type(2) {
+    margin: 6px 0;
+}
+
+.navbar-open #animated-bar .bar:nth-of-type(3) {
+    transform: rotate(-45deg);
+    top: -10px;
+}
+
+#animated-bar .bar {
+    background: #fff;
+    height: 4px;
+    width: 30px;
+    border-radius: 100px;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+    transition-duration: .2s;
+    position: relative;
+    top: 0;
+}
+

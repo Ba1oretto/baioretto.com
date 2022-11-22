@@ -3,24 +3,25 @@ import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
 import { Interaction } from "../../util";
 import useTranslation from "../../hook/useTranslation";
-import { headerCSS, ToggleVisibility } from "./PageHeader";
+import { headerCSS } from "./PageHeader";
+import { NavbarContext } from "../../App";
 
 const routerPath = [
   { name: "home", path: "/" },
   { name: "blog", path: "/blog" },
   { name: "media", path: "/media" },
-  { name: "project", path: "/project" }
+  { name: "project", path: "/project" },
 ];
 
 type RouterLink = `navigation.${"home" | "blog" | "media" | "project"}`;
 
-export default function NavigatorList() {
+export default function Navigator() {
   const location = useLocation();
   const { t } = useTranslation();
-  const { setVisible } = useContext(ToggleVisibility);
+  const { setNavbarActive } = useContext(NavbarContext);
 
   function handleClick(keep: boolean) {
-    if (!keep) setVisible();
+    if (!keep) setNavbarActive(false);
   }
 
   return (

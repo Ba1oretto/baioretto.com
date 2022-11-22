@@ -29,5 +29,12 @@
   },
   "other": {
     "source": "source code"
+  },
+  "date": {
+    "deploy": "deployed since",
+    "day": "d",
+    "hour": "hr",
+    "minute": "min",
+    "second": "s"
   }
 }

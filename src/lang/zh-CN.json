@@ -29,5 +29,12 @@
   },
   "other": {
     "source": "源码"
+  },
+  "date": {
+    "deploy": "deployed since",
+    "day": "天",
+    "hour": "时",
+    "minute": "分",
+    "second": "秒"
   }
 }
