@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 export default function PageContent() {
   return(
-    <main>
+    <main className="container mx-auto py-8">
       <Outlet />
     </main>
   );

@@ -1,0 +1,7 @@
+.post-list li::marker {
+    content: "•";
+}
+
+.filter-input {
+    background: 0 0;
+}

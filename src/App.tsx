@@ -34,7 +34,7 @@ function App() {
 
   return (
     <div
-      className={classNames("min-h-screen grid grid-rows-body dark:bg-dark-bg dark:text-dark-text", { "navbar-open": isNavbarActive })}>
+      className={classNames("min-h-screen grid grid-rows-[auto_1fr_auto] dark:bg-dark dark:text-dark", { "navbar-open": isNavbarActive })}>
       <ModalContext.Provider value={modalState}>
         <NavbarContext.Provider value={{ isNavbarActive, setNavbarActive, toggleNavbarState }}>
           <PageHeader />

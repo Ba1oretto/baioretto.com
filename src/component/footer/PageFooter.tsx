@@ -29,8 +29,8 @@ function TextSection() {
     <div className="container mx-auto flex flex-col md:flex-row md:items-center p-6">
       <AtriPortrait />
       <div className="ml-3">
-        <div className="text-black opacity-80 leading-tight">Baioretto, A independent developer.</div>
-        <div className="text-orange-900 leading-tight">Copyright © 2022 baioretto | All rights reserved</div>
+        <div className="text-black opacity-80 leading-tight">Baioretto, An Independent Developer</div>
+        <div className="text-orange-900 leading-tight">Copyright © 2022 baioretto | All rights reserved | sunjiamu@outlook.com</div>
       </div>
     </div>
   );

@@ -12,3 +12,15 @@ export declare interface ComponentEntry {
 }
 
 export type Lang = "en" | `zh${"CN" | "TW"}` | "ja";
+
+export type Post = {
+  id: string,
+  tag: string[],
+  date: string,
+  title: string,
+  category: string,
+};
+
+export type CategorizedPosts = {
+  [index: string]: Post[],
+};

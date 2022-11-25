@@ -21,31 +21,30 @@ module.exports = {
       }
     },
     extend: {
-      margin: {
-        "27": "108px"
-      },
       borderRadius: {
         "2/4": "50%"
       },
-      gridTemplateRows: {
-        "body": "auto 1fr auto",
-        "video": "auto 1fr"
-      },
-      gridTemplateColumns: {
-        "modal700": "minmax(auto,700px)",
-        "modal500": "minmax(auto,500px)",
-        "modal550": "minmax(auto,550px)",
-        "modal600": "minmax(auto,600px)",
-        "modal900": "minmax(auto,900px)"
-      },
-      colors: {
+      backgroundColor: {
         dark: {
-          "bg": "#020409",
-          "text": "#c9d1d9",
-          "frost": "#030710"
+          DEFAULT: "#020409",
+          frost: "#030710"
+        }
+      },
+      boxShadow: {
+        blue: "inset 0 0 0 2px #138cd3"
+      },
+      textColor: {
+        dark: {
+          DEFAULT: "#c9d1d9"
         },
         blue: {
-          "600": "#426be7"
+          DEFAULT: "#138cd3"
+        }
+      },
+      colors: {
+        blue: {
+          "600": "#426be7",
+          "link": "#74aac0",
         },
         yellow: {
           "400": "#fac000",
@@ -53,9 +52,9 @@ module.exports = {
           "550": "#d28921",
           "600": "#b06418"
         },
-        "orange": {
+        orange: {
           "900": "#5c320a"
-        }
+        },
       }
     },
   },

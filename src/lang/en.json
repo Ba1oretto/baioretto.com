@@ -23,7 +23,7 @@
   },
   "navigation": {
     "home": "home",
-    "blog": "blog",
+    "post": "post",
     "media": "media",
     "project": "project"
   },

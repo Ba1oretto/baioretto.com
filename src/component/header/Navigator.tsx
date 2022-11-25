@@ -8,12 +8,12 @@ import { NavbarContext } from "../../App";
 
 const routerPath = [
   { name: "home", path: "/" },
-  { name: "blog", path: "/blog" },
+  { name: "post", path: "/post" },
   { name: "media", path: "/media" },
-  { name: "project", path: "/project" },
+  { name: "project", path: "/test" },
 ];
 
-type RouterLink = `navigation.${"home" | "blog" | "media" | "project"}`;
+type RouterLink = `navigation.${"home" | "post" | "media" | "project"}`;
 
 export default function Navigator() {
   const location = useLocation();

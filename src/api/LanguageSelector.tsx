@@ -36,7 +36,7 @@ export default function LanguageSelector({ setShowSelector }: { setShowSelector:
   }, []);
 
   return (
-    <Modal className={"grid-cols-modal550"}>
+    <Modal className={"grid-cols-[minmax(auto_550px)]"}>
       <div className={"p-6 transition-transform transform bg-gray-900 rounded-md leading-8"}>
         <CloseBtn onClick={handleClose} />
         <h1 className={"mb-6 text-6xl font-bold"}>{t("language.index")}</h1>
