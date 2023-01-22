@@ -12,3 +12,8 @@
 ::-webkit-scrollbar {
     display: none;
 }
+
+/* For interactive block */
+.InteractiveBlock {
+    @apply flex items-center rounded-md font-bold text-xl md:text-lg p-6 md:px-4 md:py-2 transition-colors hover:bg-amber-200 hover:text-amber-800;
+}

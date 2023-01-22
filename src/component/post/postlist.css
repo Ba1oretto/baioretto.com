@@ -2,6 +2,31 @@
     content: "•";
 }
 
-.filter-input {
-    background: 0 0;
+.category-enter {
+    opacity: 0;
+}
+
+.category-enter-active {
+    opacity: 1;
+    animation: .2s test;
+    transition: opacity 1s ease-in;
+}
+
+.category-exit {
+    opacity: 1;
+}
+
+.category-exit-active {
+    opacity: 0;
+    transition: opacity 1s ease-in;
+}
+
+@keyframes test {
+    from {
+        max-height: 0;
+    }
+
+    to {
+        max-height: fit-content;
+    }
 }

@@ -7,7 +7,11 @@
     <title>HOME</title>
   </head>
   <body>
-    <div id="root" class="h-full"></div>
+    <div id="root" class="min-h-screen grid grid-rows-[auto_1fr_auto] dark:bg-black-800 dark:text-black-100"></div>
+    <div id="modal" class="z-50 fixed bg-black/80 inset-0 grid items-center justify-center transition-opacity duration-300 overflow-auto py-6 opacity-0 pointer-events-none dark:text-black-100"></div>
+    <div id="mask" class="fixed inset-0 bg-black-800/80 flex flex-col items-center justify-center transition-opacity duration-300 pointer-events-none opacity-0">
+      <img src="/src/assets/loading.webp" class="w-28" alt="loading"/>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

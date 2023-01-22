@@ -1,19 +1,49 @@
-/** @type {import('tailwindcss').Config} */
+const colors = require('tailwindcss/colors')
+
+/** @type {import("tailwindcss").Config} */
 module.exports = {
-  darkMode: "class",
+  darkMode: ["class", "[data-darkmode-enable=\"true\"]"],
   content: [
     "./index.html",
     "./src/**/*.tsx"
   ],
   theme: {
-    screens: {
-      sm: '640px',
-      md: '768px',
-      mobile: {
-        max: "992px"
+    colors: {
+      blue: {
+        200: "hsl(202, 83%, 45%)",
+        300: "hsl(225, 77%, 58%)",
       },
-      lg: '992px',
-      xl: '1100px'
+      yellow: {
+        100: "hsl(51, 100%, 50%)",
+        200: "hsl(46, 100%, 50%)",
+      },
+      amber: {
+        100: "hsl(40, 100%, 49%)",
+        200: "hsl(38, 90%, 48%)",
+        300: "hsl(34, 100%, 50%)",
+        400: "hsl(31, 92%, 50%)",
+        800: "hsl(23, 82%, 31%)",
+        900: "hsl(29, 80%, 20%)",
+      },
+      orange: {
+        100: "hsl(26, 100%, 50%)",
+        200: "hsl(22, 100%, 44%)",
+      },
+      white: colors.white,
+      black: {
+        DEFAULT: colors.black,
+        50: "hsl(220, 14%, 96%)",
+        100: "hsl(210, 17%, 82%)",
+        750: "hsl(222, 68%, 4%)",
+        800: "hsl(223, 64%, 2%)",
+      },
+      transparent: colors.transparent
+    },
+    screens: {
+      sm: "640px",
+      md: "768px",
+      lg: "992px",
+      xl: "1100px"
     },
     container: {
       padding: {
@@ -24,39 +54,10 @@ module.exports = {
       borderRadius: {
         "2/4": "50%"
       },
-      backgroundColor: {
-        dark: {
-          DEFAULT: "#020409",
-          frost: "#030710"
-        }
-      },
       boxShadow: {
         blue: "inset 0 0 0 2px #138cd3"
       },
-      textColor: {
-        dark: {
-          DEFAULT: "#c9d1d9"
-        },
-        blue: {
-          DEFAULT: "#138cd3"
-        }
-      },
-      colors: {
-        blue: {
-          "600": "#426be7",
-          "link": "#74aac0",
-        },
-        yellow: {
-          "400": "#fac000",
-          "450": "#c89312",
-          "550": "#d28921",
-          "600": "#b06418"
-        },
-        orange: {
-          "900": "#5c320a"
-        },
-      }
     },
   },
   plugins: [],
-}
+};

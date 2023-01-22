@@ -1,12 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
-import type { CategorizedPosts } from "../../type";
-import { Post } from "../../type";
-import { animated, useTransition } from "@react-spring/web";
+import type { CategorizedPosts, Post } from "../../type";
 import { Link } from "react-router-dom";
 import isEqual from "lodash.isequal";
 import difference from "lodash.difference";
 
-function Category({ category }: { category: string }) {
+type KeyBehaviour = {
+  [index: string]: "increase" | "decrease",
+};
+
+function Category({ category }: { category: string })
+{
   return (
     <div className="flex flex-row items-center mb-4">
       <svg aria-hidden="true" viewBox="0 0 512 512" width="28" height="28">
@@ -18,59 +21,97 @@ function Category({ category }: { category: string }) {
   );
 }
 
-function Posts({ posts }: { posts: Post[] }) {
-  const AnimatedPosts = useTransition(posts, {
-    from: { opacity: 0, maxHeight: 0, padding: 0, paddingLeft: 0 },
-    enter: { opacity: 1, maxHeight: 48, padding: 8, paddingLeft: 16 },
-    leave: { opacity: 0, maxHeight: 0, padding: 0, paddingLeft: 0 },
-  });
+function Posts({ posts }: { posts: Post[] })
+{
+  const [ isInitial, setInitial ] = useState(() => true);
+  const [ cachedPosts, setCachedPosts ] = useState(() => posts);
+  const [ keyBehaviour, setKeyBehaviour ] = useState({} as KeyBehaviour);
+  const [ variable, setVariable ] = useState(0);
+
+  useEffect(() => {
+    if (isEqual(posts, cachedPosts) && !isInitial) return;
+
+    if (isInitial) setInitial(false);
+
+    const isIncr = posts.length > cachedPosts.length;
+    const differentValue = difference(isIncr ? posts : cachedPosts, isIncr ? cachedPosts : posts);
+
+    const behaviours = {} as KeyBehaviour;
+    for (const element of differentValue)
+      behaviours[element.id] = isIncr ? "increase" : "decrease";
+    setKeyBehaviour(behaviours);
+
+    setVariable(isIncr ? 0 : 1);
+    const intervalId = setInterval(() => setVariable(prevState => prevState + (isIncr ? 0.04 : -0.04)), 8);
+
+    if (isIncr)
+    {
+      setCachedPosts(posts);
+      setTimeout(() => {
+        setVariable(1);
+        clearInterval(intervalId);
+      }, 200); // do not clearTimeout()!
+      return;
+    }
+
+    setTimeout(() => {
+      setCachedPosts(posts);
+      setVariable(0);
+      clearInterval(intervalId);
+    }, 200);
+  }, [ posts ]);
 
   return (
     <ul className="pl-5">
-      {AnimatedPosts((style, info) => (
-        <animated.li style={style} className="list-disc list-outside text-2xl">
-          <em className="mr-4 font-light">{info.date}</em>
-          <Link className="text-sky-500 hover:underline" to={`post/${info.id}`}>{info.title}</Link>
-        </animated.li>
-      ))}
+      {cachedPosts.map(post => {
+        const isInitial = keyBehaviour[post.id] === undefined;
+        return (
+          <li key={post.id} className="list-disc list-outside text-2xl" style={{
+            opacity: isInitial ? 1 : variable,
+            padding: isInitial ? "8px 8px 8px 16px" : `${8 * variable}px ${8 * variable}px ${8 * variable}px ${16 * variable}px`,
+            maxHeight: (isInitial || variable === 1) ? "100%" : 50 * variable,
+          }}>
+            <em className="mr-4 font-light">{post.date}</em>
+            <Link className="text-sky-500 hover:underline" to={`post/${post.id}`}>{post.title}</Link>
+          </li>
+        );
+      })}
     </ul>
   );
 }
 
-type KeyBehaviour = {
-  [index: string]: "increase" | "decrease" | "none",
-};
-
-export default function PostList({ data }: { data: CategorizedPosts }) {
+function PostList({ data }: { data: CategorizedPosts })
+{
   const [ isInitial, setInitial ] = useState(() => true);
   const [ cachedData, setCachedData ] = useState({} as CategorizedPosts);
   const [ cachedDataKeys, setCachedDataKeys ] = useState([] as string[]);
   const [ keyBehaviour, setKeyBehaviour ] = useState({} as KeyBehaviour);
   const [ variable, setVariable ] = useState(0);
 
+  // SMART CODE!
   useEffect(() => {
     if (isEqual(data, cachedData)) return;
 
     const dataKeys = Object.keys(data);
-    if (isInitial) {
+    if (isInitial)
+    {
       setInitial(false);
       setData(data, dataKeys);
       return;
     }
 
-    if (isEqual(dataKeys, cachedDataKeys)) {
+    if (isEqual(dataKeys, cachedDataKeys))
+    {
       setData(data, dataKeys);
       return;
     }
 
-    const behaviours = {} as KeyBehaviour;
-    cachedDataKeys.forEach(key => {
-      behaviours[key] = "none";
-    });
-
     const isIncr = dataKeys.length > cachedDataKeys.length;
     const differentValue = difference(isIncr ? dataKeys : cachedDataKeys, isIncr ? cachedDataKeys : dataKeys);
-    for (const element of differentValue) {
+
+    const behaviours = {} as KeyBehaviour;
+    for (const element of differentValue)
+    {
       behaviours[element] = isIncr ? "increase" : "decrease";
     }
 
@@ -78,13 +119,14 @@ export default function PostList({ data }: { data: CategorizedPosts }) {
 
     setVariable(isIncr ? 0 : 1);
     const intervalId = setInterval(() => {
-      setVariable(prevState => prevState + (isIncr ? 0.02 : -0.03));
+      setVariable(prevState => prevState + (isIncr ? 0.02 : -0.02));
     }, 1);
 
-    if (isIncr) {
+    if (isIncr)
+    {
       setData(data, dataKeys);
       setTimeout(() => {
-        setVariable(isIncr ? 1 : 0);
+        setVariable(1);
         clearInterval(intervalId);
       }, 200); // do not clearTimeout()!
       return;
@@ -92,10 +134,9 @@ export default function PostList({ data }: { data: CategorizedPosts }) {
 
     setTimeout(() => {
       setData(data, dataKeys);
-      setVariable(isIncr ? 1 : 0);
+      setVariable(0);
       clearInterval(intervalId);
     }, 200);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ data ]);
 
   const setData = useCallback((d: CategorizedPosts, dk: string[]) => {
@@ -104,14 +145,14 @@ export default function PostList({ data }: { data: CategorizedPosts }) {
   }, []);
 
   return (
-    <div className="post-list bg-dark-frost/80">
+    <div className="post-list dark:bg-black-750/80">
       {cachedDataKeys.map(category => {
-        const isInitial = keyBehaviour[category] === "none" || keyBehaviour[category] === undefined;
+        const isInitial = keyBehaviour[category] === undefined;
         return (
           <section key={category} style={{
             opacity: isInitial ? 1 : variable,
             padding: isInitial ? "16px 16px 16px 32px" : `${16 * variable}px ${16 * variable}px ${16 * variable}px ${32 * variable}px`,
-            maxHeight: isInitial ? "100%" : 50 * (cachedData[category].length + 2) * variable,
+            maxHeight: (isInitial || variable === 1) ? "100%" : 50 * (cachedData[category].length + 2) * variable,
           }}>
             <Category category={category} />
             <Posts posts={cachedData[category]} />
@@ -121,3 +162,5 @@ export default function PostList({ data }: { data: CategorizedPosts }) {
     </div>
   );
 }
+
+export default PostList;

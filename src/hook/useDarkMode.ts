@@ -1,19 +1,17 @@
-import { useCallback, useEffect } from "react";
-import { useLocalStorage, useMediaQuery } from "usehooks-ts";
+import { atomWithStorage } from "jotai/utils";
+import { useAtom } from "jotai";
+import { useEffect } from "react";
 
-export default function useDarkMode(defaultValue?: boolean): { isDarkMode: boolean, toggleDarkMode: () => void } {
-  const isDarkOS = useMediaQuery("(prefers-color-scheme)");
-  const [isDarkMode, setDarkMode] = useLocalStorage<boolean>("dark-mode", defaultValue ?? isDarkOS);
+const darkModeAtom = atomWithStorage("dark-mode", window.matchMedia("(prefers-color-scheme: dark)").matches);
 
-  const toggleState = useCallback(() => {
-    setDarkMode(prevState => !prevState);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+export default function () {
+  const [ isDarkMode, setDarkMode ] = useAtom(darkModeAtom);
 
   useEffect(() => {
-    if (isDarkMode) document.body.classList.add("dark");
-    else document.body.classList.remove("dark");
-  }, [isDarkMode]);
+    document.body.setAttribute("data-darkmode-enable", isDarkMode ? "true" : "false");
+  }, [ isDarkMode ]);
 
-  return { isDarkMode, toggleDarkMode: toggleState };
+  return {
+    setDarkMode,
+  };
 }
