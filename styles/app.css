@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  @media (width < 768px) {
+    .HeaderMenu menu {
+      @apply pointer-events-none invisible absolute top-0 left-0 right-0 bg-white dark:bg-black px-3 py-6 opacity-0 transition-all;
+    }
+    .HeaderMenu[data-headermenu-open=true] menu {
+      @apply pointer-events-auto visible top-full opacity-100;
+    }
+  }
+
+  .HeaderMenu[data-headermenu-open="true"] .bar div:nth-of-type(1) {
+    transform: rotate(45deg);
+    top: 10px;
+  }
+
+  .HeaderMenu[data-headermenu-open=true] .bar div:nth-of-type(2) {
+    transform: rotate(180deg);
+    opacity: 0;
+  }
+
+  .HeaderMenu .bar div:nth-of-type(2) {
+    margin: 6px 0;
+  }
+
+  .HeaderMenu[data-headermenu-open=true] .bar div:nth-of-type(3) {
+    transform: rotate(-45deg);
+    top: -10px;
+  }
+
+  .HeaderMenu .bar div {
+    height: 4px;
+    width: 30px;
+    border-radius: 100px;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+    transition-duration: .2s;
+    position: relative;
+    top: 0;
+  }
+
+  .HeaderMenu .bar div {
+    @apply bg-black dark:bg-white;
+  }
+
+  .RoundedButton {
+    @apply flex items-center rounded-md md:rounded-2/4 font-bold text-xl w-full mb-4 md:mb-0 md:mr-4 last:mr-0 p-6 md:p-4 hover:bg-amber-200 hover:text-amber-800 transition-colors;
+  }
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+:root {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
