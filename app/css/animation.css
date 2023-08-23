@@ -1,0 +1,49 @@
+/* region Modal */
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-exit {
+  opacity: 1;
+}
+
+.modal-enter-active {
+  opacity: 1;
+}
+
+.modal-exit-active {
+  opacity: 0;
+}
+
+.modal-enter-active, .modal-exit-active {
+  transition: opacity .3s;
+}
+/* endregion */
+
+/* region Tag */
+.tag-enter {
+  opacity: 0;
+}
+
+.tag-exit {
+  opacity: 1;
+}
+
+.tag-enter-active {
+  opacity: 1;
+}
+
+.tag-exit-active {
+  opacity: 0;
+}
+
+.tag-enter-active, .tag-exit-active {
+  transition: opacity .1s, transform .1s;
+}
+/* endregion */
+
+/* region FileUploader */
+.file-uploader.drag-active {
+  @apply text-white-400 bg-blue-1000 border-white-900/70
+}
+/* endregion */
