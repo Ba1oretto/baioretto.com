@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols,ES6ConvertVarToLetConst
+
 import { Octokit } from "@octokit/rest";
 import { GITHUB_TOKEN } from "~/utils/variable.server";
 

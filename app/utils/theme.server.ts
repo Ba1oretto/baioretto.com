@@ -1,12 +1,13 @@
 import { createCookieSessionStorage } from "@remix-run/node";
 import { IS_PRODUCTION, COOKIE_SECRET } from "./variable.server";
-import type { Theme } from "~/components/ThemeProvider";
 
-function isTheme(theme: unknown): theme is Theme {
+type Theme = "dark" | "light";
+
+function validateTheme(theme: unknown): theme is Theme {
   return theme === "dark" || theme === "light";
 }
 
-const storage = createCookieSessionStorage({
+const theme_storage = createCookieSessionStorage({
   cookie: {
     name: "theme",
     secure: IS_PRODUCTION,
@@ -18,26 +19,28 @@ const storage = createCookieSessionStorage({
   },
 });
 
-function getThemeSession(request: Request) {
-  return storage.getSession(request.headers.get("Cookie"));
-}
-
-async function getTheme(request: Request) {
-  const session = await getThemeSession(request);
+async function getTheme(request: Request): Promise<Theme>  {
+  const session = await theme_storage.getSession(request.headers.get("Cookie"));
   const theme = session.get("theme");
-  return isTheme(theme) ? theme : undefined;
+  return validateTheme(theme) ? theme : "dark";
 }
 
-async function updateTheme(request: Request, theme: string) {
-  const session = await storage.getSession(request.headers.get("Cookie"));
-  if (theme === session.get("theme")) return undefined;
-  session.set("theme", theme);
+async function getThemeToggledHeader(request: Request) {
+  const session = await theme_storage.getSession(request.headers.get("Cookie"));
+  const current_theme = session.get("theme");
+
+  if (!validateTheme(current_theme)) {
+    session.set("theme", "dark");
+  } else {
+    session.set("theme", current_theme === "dark" ? "light" : "dark");
+  }
+
   return {
-    "Set-Cookie": await storage.commitSession(session),
+    "Set-Cookie": await theme_storage.commitSession(session),
   };
 }
 
 export {
   getTheme,
-  updateTheme,
+  getThemeToggledHeader,
 };

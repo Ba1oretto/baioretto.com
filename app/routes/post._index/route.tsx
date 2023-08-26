@@ -25,14 +25,11 @@ export const meta: V2_MetaFunction = () => ([
 ]);
 
 export const loader: LoaderFunction = async () => {
-  throw new Error("not implemented😅");
-  return defer({
-    posts: fetch(`API_URL/post`).then(res => res.json()),
-  });
+  return null;
 };
 
 export default function () {
-  const data = useLoaderData();
+  const data = useLoaderData<typeof loader>();
   const [ query, setQuery ] = useState("");
   const input_ref = useRef<HTMLInputElement>(null);
 
@@ -62,11 +59,11 @@ export default function () {
           </svg>
         </button>
       </section>
-      <Suspense fallback={<LoadingShimmer />}>
-        <Await resolve={data.posts}>
-          <PostList query={query} />
-        </Await>
-      </Suspense>
+      {/*<Suspense fallback={<LoadingShimmer />}>*/}
+      {/*  <Await resolve={data.posts}>*/}
+      {/*    <PostList query={query} />*/}
+      {/*  </Await>*/}
+      {/*</Suspense>*/}
     </main>
   );
 }

@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols,ES6ConvertVarToLetConst
+
 import { PrismaClient } from "@prisma/client";
 
 let db: PrismaClient;

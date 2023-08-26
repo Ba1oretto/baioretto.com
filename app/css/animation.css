@@ -1,25 +1,3 @@
-/* region Modal */
-.modal-enter {
-  opacity: 0;
-}
-
-.modal-exit {
-  opacity: 1;
-}
-
-.modal-enter-active {
-  opacity: 1;
-}
-
-.modal-exit-active {
-  opacity: 0;
-}
-
-.modal-enter-active, .modal-exit-active {
-  transition: opacity .3s;
-}
-/* endregion */
-
 /* region Tag */
 .tag-enter {
   opacity: 0;

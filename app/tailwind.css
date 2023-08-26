@@ -50,8 +50,11 @@
 }
 
 @layer components {
-  .RoundedButton {
-    @apply flex items-center rounded-md md:rounded-2/4 font-bold text-xl w-full mb-4 md:mb-0 md:mr-4 last:mr-0 p-6 md:p-4 hover:bg-amber-200 hover:text-amber-800 transition-all duration-200;
+  .circle-button {
+    @apply
+    flex items-center mb-4 md:mb-0 md:mr-4 last-of-type:mr-0 p-6 md:p-4 w-full
+    rounded-md md:rounded-2/4
+    font-bold text-xl hover:bg-amber-200 hover:text-amber-800 duration-200 transition-all;
   }
 
   .Center {
@@ -61,18 +64,5 @@
   /* To avoid wrong optimization */
   .Freeze {
     @apply overflow-hidden;
-  }
-
-  .LanguageRank::-webkit-progress-bar {
-    @apply rounded-lg;
-  }
-
-  .LanguageRank::-webkit-progress-value {
-    @apply rounded-lg;
-    background: linear-gradient(to bottom right, theme("colors.amber.100"), theme("colors.amber.500"));
-  }
-
-  .CardBg {
-    @apply dark:shadow-blue dark:shadow-blue-900 rounded-2xl p-5;
   }
 }
