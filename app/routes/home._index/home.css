@@ -1,0 +1,28 @@
+progress::-webkit-progress-bar {
+  @apply rounded-lg;
+}
+
+progress::-webkit-progress-value {
+  @apply rounded-lg;
+  background: linear-gradient(
+    110deg,
+    hsl(36 100% 45%),
+    hsl(34 100% 46%),
+    hsl(32 100% 47%),
+    hsl(30 100% 48%),
+    hsl(28 100% 49%),
+    hsl(26 100% 50%)
+  );
+}
+
+#mailme span {
+  @apply sr-only
+}
+
+#mailme input, #mailme textarea {
+  @apply w-full h-full rounded-md p-2 shadow-aureole shadow-deep-azure bg-transparent text-xl;
+}
+
+#mailme textarea {
+  @apply overflow-y-auto resize-none whitespace-pre-wrap;
+}

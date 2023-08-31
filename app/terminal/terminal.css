@@ -1,0 +1,23 @@
+.terminal-container {
+  @apply fixed top-1/2 left-[71%] w-[50vh] h-[40vh] block rounded-lg bg-dark-gray;
+}
+
+.terminal-commandline {
+  @apply absolute inset-x-0 top-10 bottom-0 p-2 overflow-y-auto font-medium bg-dark-plum;
+}
+
+.terminal-commandline::-webkit-scrollbar-thumb {
+  @apply bg-dark-gray rounded-md;
+}
+
+.terminal-commandline::-webkit-scrollbar-track {
+  @apply bg-dim-gray;
+}
+
+.terminal-commandline::-webkit-scrollbar {
+  @apply w-2;
+}
+
+.terminal-input {
+  @apply absolute w-full outline-none resize-none bg-transparent caret-tangerine-orange;
+}

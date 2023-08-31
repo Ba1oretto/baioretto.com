@@ -1,0 +1,156 @@
+.viewer {
+  line-height: 2rem;
+  margin-top: 32px;
+  margin-bottom: 64px;
+}
+
+/* region table */
+.table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.table th {
+  text-align: left;
+}
+
+.table > thead > tr > th {
+  padding: 8px;
+  line-height: 1.5;
+}
+
+.table > thead > tr > td, .table > tbody > tr > th, .table > tbody > tr > td, .table > tfoot > tr > th, .table > tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.5;
+}
+
+.table-bordered, .table-bordered > thead > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > th, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > th, .table-bordered > tfoot > tr > td {
+  border: 1px solid rgb(30, 60, 90);
+}
+
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
+  border-bottom-width: 2px;
+}
+
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+  background-color: rgb(10, 15, 20);
+}
+
+/* endregion */
+
+/* region code */
+.viewer pre code {
+  white-space: pre-wrap;
+}
+
+.viewer pre {
+  margin: 0 0 1.33999rem;
+  padding: .66001rem 10px 10px;
+  word-break: break-all;
+  word-wrap: break-word;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  line-height: 2rem;
+  background: linear-gradient(to bottom, #fff 0, #fff 0.75rem, #f5f7fa 0.75rem, #f5f7fa 2.75rem, #fff 2.75rem, #fff 4rem);
+  background-size: 100% 4rem;
+  font-size: 1rem;
+}
+
+.viewer pre {
+  background-image: linear-gradient(
+    rgb(14, 16, 17) 0,
+    rgb(14, 16, 17) 0.75rem,
+    rgb(18, 21, 22) 0.75rem,
+    rgb(18, 21, 22) 2.75rem,
+    rgb(14, 16, 17) 2.75rem,
+    rgb(14, 16, 17) 4rem);
+  border-color: rgb(30, 60, 90);
+}
+
+/* endregion */
+
+/* region link */
+.viewer a {
+  text-decoration: underline;
+}
+
+/* endregion */
+
+/* region list */
+.viewer ul {
+  list-style-type: disc;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  padding-inline-start: 40px;
+}
+
+.viewer li {
+  margin-left: 1rem;
+}
+
+.viewer ul, .viewer ol {
+  margin-bottom: .83999rem;
+  padding-top: .16001rem;
+}
+
+/* endregion */
+
+/* region paraphrase */
+.viewer blockquote p {
+  padding: .66001rem 1rem 1rem;
+  margin-bottom: .33999rem;
+  border-left: 3px solid rgb(71, 71, 71);
+  font-size: 1rem;
+}
+
+.viewer h2 + p {
+  padding-top: 1.5rem;
+}
+
+.viewer p {
+  padding-top: .66001rem;
+  margin-bottom: 1.33999rem;
+}
+
+/* endregion */
+
+/* region title */
+.viewer h1 {
+  font-size: 2.718281rem;
+  margin-bottom: 1.290691rem;
+  padding-top: 1.030694rem;
+}
+
+.viewer h2 {
+  font-size: 2.446453rem;
+  margin-bottom: 1.242584rem;
+  padding-top: 1.078801rem
+}
+
+.viewer h3 {
+  font-size: 2.174625rem;
+  margin-bottom: 1.10041rem;
+  padding-top: 1.220973rem
+}
+
+.viewer h4 {
+  font-size: 1.902797rem;
+  margin-bottom: .546865rem;
+  padding-top: .453135rem
+}
+
+.viewer h5 {
+  font-size: 1.630969rem;
+  margin-bottom: -.743292rem;
+  padding-top: .743292rem
+}
+
+.viewer h6 {
+  font-size: 1.359140rem;
+  margin-bottom: -.858914rem;
+  padding-top: .858914rem
+}
+
+/* endregion title */

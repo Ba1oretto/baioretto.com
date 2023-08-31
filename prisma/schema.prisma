@@ -3,47 +3,59 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id       String @id @default(uuid())
+  id       String @id @default(uuid()) @db.Uuid
   username String @unique
   password String
   posts    Post[]
+
+  @@map("user")
 }
 
 model Post {
-  id          String    @id @default(uuid())
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
-  title       String
-  content     String
-  raw_content String
-  tags        PostTag[]
-  category    Category  @relation(fields: [category_id], references: [id])
-  category_id String
-  author      User      @relation(fields: [author_id], references: [id])
-  author_id   String
+  id           String    @id @default(uuid()) @db.Uuid
+  title        String
+  slug         String    @unique
+  content      String
+  excerpt      String
+  raw_content  String
+  published_at DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  tags         PostTag[]
+  category     Category  @relation(fields: [category_id], references: [id])
+  category_id  String    @db.Uuid
+  author       User      @relation(fields: [author_id], references: [id])
+  author_id    String    @db.Uuid
+
+  @@map("post")
 }
 
 model Tag {
-  id    String    @id @default(uuid())
+  id    String    @id @default(uuid()) @db.Uuid
   name  String    @unique
   posts PostTag[]
+
+  @@map("tag")
 }
 
 model Category {
-  id    String @id @default(uuid())
+  id    String @id @default(uuid()) @db.Uuid
   name  String @unique
   posts Post[]
+
+  @@map("category")
 }
 
 model PostTag {
-  id      String @id @default(uuid())
+  id      String @id @default(uuid()) @db.Uuid
   post    Post   @relation(fields: [post_id], references: [id])
   tag     Tag    @relation(fields: [tag_id], references: [id])
-  post_id String
-  tag_id  String
+  post_id String @db.Uuid
+  tag_id  String @db.Uuid
+
+  @@map("post_tag")
 }

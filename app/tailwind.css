@@ -4,37 +4,35 @@
 
 @layer base {
   body {
-    @apply bg-white-200 dark:bg-blue-1100 text-blue-1100 dark:text-white-500;
+    @apply dark:bg-abyss-blue dark:text-warm-gray;
   }
 
   h1 {
-    @apply text-5xl font-bold text-black-100 dark:text-white-300;
+    @apply text-4xl font-extrabold;
   }
 
   h2 {
-    @apply text-4xl font-bold mb-2 text-black-200 dark:text-white-400;
+    @apply text-3xl font-bold;
   }
 
   h3 {
-    @apply text-2xl font-medium mb-1 text-black-300 dark:text-white-500;
+    @apply text-2xl font-semibold;
   }
 
   p {
     @apply text-xl;
   }
 
-  strong {
-    @apply dark:text-white-300;
+  input[type="file"] {
+    @apply file:text-inherit;
   }
 
-  figcaption strong {
-    @apply text-blue-1100/80 dark:text-white-500/80;
+  a, button {
+    @apply outline-none transition-all;
   }
 
-  :focus {
-    outline: none;
-    box-shadow: 0 0 0 3px hsla(220, 100%, 50%, 80%);
-    border-color: transparent !important;
+  a:focus-visible, button:focus-visible {
+    outline: 3px solid hsla(220, 100%, 50%, 80%);
   }
 
   /* Hide scrollbar for IE, Edge and Firefox */
@@ -50,19 +48,124 @@
 }
 
 @layer components {
-  .circle-button {
-    @apply
-    flex items-center mb-4 md:mb-0 md:mr-4 last-of-type:mr-0 p-6 md:p-4 w-full
-    rounded-md md:rounded-2/4
-    font-bold text-xl hover:bg-amber-200 hover:text-amber-800 duration-200 transition-all;
-  }
-
-  .Center {
+  .center {
     @apply flex items-center justify-center;
   }
 
-  /* To avoid wrong optimization */
-  .Freeze {
+  .freeze {
+    @apply overflow-hidden;
+  }
+
+  .modal-freeze {
     @apply overflow-hidden;
   }
 }
+
+@layer lds-roller {
+  .lds-roller {
+    display: inline-block;
+    position: absolute;
+    top: 35%;
+    left: 45%;
+    width: 80px;
+    height: 80px;
+  }
+
+  .lds-roller div {
+    animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    transform-origin: 40px 40px;
+  }
+
+  .lds-roller div:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #CCCCCCFF;
+    margin: -4px 0 0 -4px;
+  }
+
+  .lds-roller div:nth-child(1) {
+    animation-delay: -0.036s;
+  }
+
+  .lds-roller div:nth-child(1):after {
+    top: 63px;
+    left: 63px;
+  }
+
+  .lds-roller div:nth-child(2) {
+    animation-delay: -0.072s;
+  }
+
+  .lds-roller div:nth-child(2):after {
+    top: 68px;
+    left: 56px;
+  }
+
+  .lds-roller div:nth-child(3) {
+    animation-delay: -0.108s;
+  }
+
+  .lds-roller div:nth-child(3):after {
+    top: 71px;
+    left: 48px;
+  }
+
+  .lds-roller div:nth-child(4) {
+    animation-delay: -0.144s;
+  }
+
+  .lds-roller div:nth-child(4):after {
+    top: 72px;
+    left: 40px;
+  }
+
+  .lds-roller div:nth-child(5) {
+    animation-delay: -0.18s;
+  }
+
+  .lds-roller div:nth-child(5):after {
+    top: 71px;
+    left: 32px;
+  }
+
+  .lds-roller div:nth-child(6) {
+    animation-delay: -0.216s;
+  }
+
+  .lds-roller div:nth-child(6):after {
+    top: 68px;
+    left: 24px;
+  }
+
+  .lds-roller div:nth-child(7) {
+    animation-delay: -0.252s;
+  }
+
+  .lds-roller div:nth-child(7):after {
+    top: 63px;
+    left: 17px;
+  }
+
+  .lds-roller div:nth-child(8) {
+    animation-delay: -0.288s;
+  }
+
+  .lds-roller div:nth-child(8):after {
+    top: 56px;
+    left: 12px;
+  }
+
+  @keyframes lds-roller {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+

@@ -11,3 +11,6 @@ public/build
 
 .env
 *.db
+
+note*
+TODO

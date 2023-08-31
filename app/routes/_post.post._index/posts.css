@@ -1,0 +1,23 @@
+.search-bar-container {
+  @apply
+  w-full h-14
+  flex items-center
+  px-3 pr-10 rounded-lg
+  shadow-aureole focus-within:shadow-[inset_0_0_0_3px_hsla(220,100%,50%,80%)] transition-all;
+}
+
+#search-bar-input {
+  @apply
+  h-full w-full
+  px-2
+  text-xl
+  outline-none appearance-none shadow-none bg-transparent;
+}
+
+.search-bar-clean-button {
+  @apply
+  absolute right-3
+  self-center
+  p-1 rounded-full
+  text-dim-gray transition-all;
+}

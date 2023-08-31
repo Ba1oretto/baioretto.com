@@ -1,0 +1,58 @@
+.link-button {
+  @apply
+  flex items-center
+  mb-4 md:mb-0 md:mr-4 last:mr-0 p-6 md:px-4 md:py-2 rounded-md
+  font-bold text-xl md:text-lg hover:bg-goldenrod-yellow hover:text-sienna-orange;
+}
+
+@media not all and (min-width: 768px) {
+  .header-menu {
+    @apply
+    absolute top-0 inset-x-0
+    px-3 py-6
+    dark:bg-ink-blue/80
+    pointer-events-none invisible opacity-0
+    data-[open=true]:top-full data-[open=true]:pointer-events-auto data-[open=true]:visible data-[open=true]:opacity-100
+    transition-all;
+  }
+}
+
+.header-menu {
+  @apply
+  flex flex-col md:flex-row justify-between md:items-center
+  max-md:[&>*>*]:shadow-aureole max-md:[&>*>*]:shadow-cobalt-blue/50 max-md:[&>*>*]:backdrop-blur-sm;
+}
+
+.menu-toggle-button-line {
+  @apply
+  relative top-0 h-1 w-8
+  rounded-3xl dark:bg-warm-gray
+  ease-in-out duration-200 transition-all;
+}
+
+.circle-button {
+  @apply
+  flex items-center w-full
+  mb-4 md:mb-0 md:mr-4 last-of-type:mr-0 p-6 md:p-4 rounded-md md:rounded-1/2
+  font-bold text-xl hover:bg-goldenrod-yellow hover:text-sienna-orange;
+}
+
+.file-uploader-panel {
+  @apply
+  flex-col gap-2.5 p-5 rounded-xl
+  border-dashed border-dim-gray border-2
+  hover:text-gainsboro-gray hover:bg-midnight-blue hover:border-warm-gray
+  data-[active=true]:text-gainsboro-gray data-[active=true]:bg-midnight-blue data-[active=true]:border-warm-gray
+  cursor-pointer transition-all;
+}
+
+.file-uploader-panel input[type=file] {
+  @apply
+  w-[calc(100%-20px)] p-2 rounded-xl
+  shadow-aureole outline-none
+  focus-visible:shadow-[inset_0_0_0_3px_hsla(220,100%,50%,80%)] hover:shadow-[inset_0_0_0_3px_hsla(220,100%,50%,80%)]
+  transition-all;
+  @apply
+  file:px-5 file:py-2.5 file:mr-5 file:rounded-lg
+  file:border-none file:font-semibold file:bg-cobalt-blue;
+}
