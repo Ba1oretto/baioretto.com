@@ -1,0 +1,16 @@
+build an ubuntu docker
+write a postgresql setup post
+
+
+tags is a field compound array
+visual_suggestion is a string
+suggestion is a field compound
+
+1. assume the last idx is always editable.
+2. when user input, update name in element, fetch the autocomplete result and clear visual_suggestion and suggestion
+3. if result is null, do nothing
+4. set suggestion to result, check user input equals name of suggestion
+5. if not match, set visual_suggestion to the user input concat the rest of suggestion
+6. if match with case insensitive, set visual_suggestion to name of suggestion
+7. if match with case sensitive, set element with id and name of suggestion, and now it's not editable (which decided by whether id is not null)
+8. push a new field compound to tags.

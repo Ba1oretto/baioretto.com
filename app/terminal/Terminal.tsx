@@ -5,15 +5,14 @@ import { useFetcher, useLoaderData, useLocation } from "@remix-run/react";
 import { CSSTransition } from "react-transition-group";
 import type { loader } from "~/root";
 import classNames from "classnames";
-import type { History } from "~/terminal/command";
+import type { History } from "~/routes/action.execute_command/command";
+import { HistoryLevel } from "~/routes/action.execute_command/command";
 
 export default function Terminal() {
-  const { user } = useLoaderData<typeof loader>();
-  const current_username = user ? user.username : "guest";
+  const { username } = useLoaderData<typeof loader>();
+  const current_username = username ?? "guest";
 
   const modal = useRef(ModalInit);
-  const fetcher = useFetcher();
-
   const input_id = useId() + "input";
 
   const prompt = useRef<HTMLSpanElement>(null);
@@ -22,9 +21,18 @@ export default function Terminal() {
   const submit_button = useRef<HTMLButtonElement>(null);
   const loading_spanner = useRef(null);
 
+  const fetcher = useFetcher();
   const current_pathname = useLocation().pathname;
 
   const [ screen_history, setScreenHistory ] = useState<History[]>([]);
+
+  function onModalEntering() {
+    adjustCommandTextIndent();
+  }
+
+  function adjustCommandTextIndent() {
+    command.current!.style.textIndent = prompt.current!.offsetWidth + 5 + "px";
+  }
 
   // simulate terminal history restore
   useEffect(() => {
@@ -37,43 +45,43 @@ export default function Terminal() {
       .map(_message => valid_history.find(({ message }) => message === _message)) as History[];
 
     if (!valid_history.length) return;
-    valid_history.push({ username: current_username, message: "", level: 0 });
+    valid_history.push({ username: current_username, message: "", level: HistoryLevel.LOG });
 
     const command_element = command.current!;
     const max_index = valid_history.length - 1;
     let current_index = max_index;
 
-    const arrow_up_handler = (event: globalThis.KeyboardEvent) => {
+    const handlePrevHistoryAccess = (event: globalThis.KeyboardEvent) => {
       if (event.key !== "ArrowUp") return;
       event.preventDefault();
       if (current_index === 0) return;
       command_element.value = valid_history[--current_index].message;
     };
 
-    const arrow_down_handler = (event: globalThis.KeyboardEvent) => {
+    const handleNextHistoryAccess = (event: globalThis.KeyboardEvent) => {
       if (event.key !== "ArrowDown") return;
       event.preventDefault();
       if (current_index === max_index) return;
       command_element.value = valid_history[++current_index].message;
     };
 
-    command_element.addEventListener("keydown", arrow_up_handler);
-    command_element.addEventListener("keydown", arrow_down_handler);
+    command_element.addEventListener("keydown", handlePrevHistoryAccess);
+    command_element.addEventListener("keydown", handleNextHistoryAccess);
     return () => {
-      command_element.removeEventListener("keydown", arrow_up_handler);
-      command_element.removeEventListener("keydown", arrow_down_handler);
+      command_element.removeEventListener("keydown", handlePrevHistoryAccess);
+      command_element.removeEventListener("keydown", handleNextHistoryAccess);
     };
   }, [ current_username, screen_history ]);
 
   // add a key bind to open the terminal
   useEffect(() => {
-    function handler(event: globalThis.KeyboardEvent) {
+    function handleModalDisplay(event: globalThis.KeyboardEvent) {
       if (!(event.ctrlKey && event.altKey && event.key === "/")) return;
       modal.current.setOpen(prev_state => !prev_state);
     }
 
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
+    window.addEventListener("keydown", handleModalDisplay);
+    return () => window.removeEventListener("keydown", handleModalDisplay);
   }, []);
 
   // automatically adjust textarea indent when its content grows
@@ -90,10 +98,6 @@ export default function Terminal() {
     form_element.scrollTop = form_element.scrollHeight;
   }, [ screen_history ]);
 
-  function adjustCommandTextIndent() {
-    command.current!.style.textIndent = prompt.current!.offsetWidth + 5 + "px";
-  }
-
   function handleEnterOnTextarea(event: KeyboardEvent<HTMLTextAreaElement>) {
     if (event.key !== "Enter") {
       return;
@@ -108,18 +112,17 @@ export default function Terminal() {
     target.style.height = target.scrollHeight + "px";
   }
 
+  // update data
   useEffect(() => {
     const data: { screen_history: History[] } = fetcher.data;
-    if (!(fetcher.state !== "idle" && data)) {
-      return;
-    }
+    if (!(fetcher.state !== "idle" && data)) return;
     setScreenHistory(data.screen_history);
   }, [ fetcher ]);
 
   const is_fetcher_busy = fetcher.state !== "idle";
 
   return (
-    <Modal ref={ modal } freeze={ false } onModalEntering={ adjustCommandTextIndent } className="terminal-container">
+    <Modal ref={ modal } freeze={ false } onModalEntering={ onModalEntering } className="terminal-container">
       <fetcher.Form ref={ form } action="action/execute_command" method="post" replace className="terminal-commandline">
         <input name="screen_history" type="hidden" defaultValue={ JSON.stringify(screen_history) } />
         <input name="current_username" type="hidden" defaultValue={ current_username } />

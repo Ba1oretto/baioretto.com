@@ -1,0 +1,26 @@
+1. Install PostgreSQL
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+
+2. Start the PostgreSQL Service
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+
+3. Access the PostgreSQL Command Line
+sudo -i -u postgres
+psql
+
+4. Create a Database User
+CREATE USER myuser WITH PASSWORD 'mypassword';
+
+5. Create a Database
+CREATE DATABASE mydatabase;
+
+6. Grant Permissions
+GRANT ALL PRIVILEGES ON DATABASE mydatabase TO myuser;
+
+7. Exit `psql`
+\q
+
+8. enable `uuid-ossp` extension
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";

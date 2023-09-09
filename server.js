@@ -8,6 +8,16 @@ import express from "express";
 import morgan from "morgan";
 import sourceMapSupport from "source-map-support";
 import { config } from "dotenv";
+import {dirname, join} from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+global.__dirname = dirname(__filename);
+
+const images_folder = join(__dirname, "images", ".tmp");
+if (!fs.existsSync(images_folder)) {
+  fs.mkdirSync(images_folder, { recursive: true });
+}
 
 config();
 

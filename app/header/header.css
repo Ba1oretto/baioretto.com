@@ -50,7 +50,7 @@
   @apply
   w-[calc(100%-20px)] p-2 rounded-xl
   shadow-aureole outline-none
-  focus-visible:shadow-[inset_0_0_0_3px_hsla(220,100%,50%,80%)] hover:shadow-[inset_0_0_0_3px_hsla(220,100%,50%,80%)]
+  focus-visible:shadow-aureole-blue-highlight hover:shadow-aureole-blue-highlight
   transition-all;
   @apply
   file:px-5 file:py-2.5 file:mr-5 file:rounded-lg

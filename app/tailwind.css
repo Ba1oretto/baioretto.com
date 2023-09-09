@@ -35,6 +35,12 @@
     outline: 3px solid hsla(220, 100%, 50%, 80%);
   }
 
+  dialog {
+    inset-inline-start: initial;
+    inset-inline-end: initial;
+    display: block;
+  }
+
   /* Hide scrollbar for IE, Edge and Firefox */
   :root {
     scrollbar-width: none;
@@ -58,6 +64,10 @@
 
   .modal-freeze {
     @apply overflow-hidden;
+  }
+
+  .busying {
+    @apply cursor-wait;
   }
 }
 

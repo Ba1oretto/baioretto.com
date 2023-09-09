@@ -1,20 +1,22 @@
 import type { Dispatch, KeyboardEvent, MouseEvent, ReactNode, SetStateAction } from "react";
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
-import ReactFocusLock from "react-focus-lock";
 import { CSSTransition } from "react-transition-group";
+
+import ReactFocusLock from "react-focus-lock";
 
 const FocusLock = (ReactFocusLock as any).default as typeof ReactFocusLock;
 
 interface ModalArgs {
   className?: string;
-  freeze?: boolean;
   children: ReactNode;
+  freeze?: boolean;
   onModalOutsideClick?: (event: MouseEvent) => void;
   onModalEntering?: () => void;
 }
 
 interface ModalFunction {
   is_open: boolean;
+  reference: HTMLDialogElement,
   setOpen: Dispatch<SetStateAction<boolean>>;
   setMouseInteraction: (value: boolean) => void;
 }
@@ -25,11 +27,7 @@ export function isClick(event: any): event is MouseEvent {
   return event?.type === "click";
 }
 
-export const ModalInit: ModalFunction = {
-  is_open: false,
-  setOpen: () => {},
-  setMouseInteraction: () => {},
-};
+export const ModalInit = {} as ModalFunction;
 
 export default forwardRef<ModalFunction, ModalArgs>(function Modal({
   className,
@@ -38,12 +36,13 @@ export default forwardRef<ModalFunction, ModalArgs>(function Modal({
   onModalOutsideClick,
   onModalEntering,
 }, ref) {
-  const modal_ref = useRef(null);
+  const modal_ref = useRef<HTMLDialogElement>(null);
   const [ is_open, setOpen ] = useState(false);
   const [ is_mouse_interaction, setMouseInteraction ] = useState(true);
 
   useImperativeHandle(ref, () => ({
     is_open,
+    reference: modal_ref.current!,
     setOpen,
     setMouseInteraction,
   }), [ is_open ]);

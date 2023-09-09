@@ -1,9 +1,15 @@
 import type { Dispatch, MouseEvent, SetStateAction } from "react";
 import { memo, useId, useState } from "react";
-import { Link, useLoaderData, useLocation, useNavigation } from "@remix-run/react";
+import { Link, useLocation, useNavigation } from "@remix-run/react";
 import classNames from "classnames";
-import { ToggleColorSchemeButton, UploadFileButton } from "~/header/Settings";
-import type { loader } from "~/root";
+import { ToggleColorSchemeButton } from "~/header/Settings";
+
+export const Routes = [
+  { name: "home", path: "/home" },
+  { name: "post", path: "/post" },
+  { name: "junction", path: "/junction" },
+  { name: "new", path: "/new" },
+];
 
 function MenuToggleButton({ menu_state }: { menu_state: [ boolean, Dispatch<SetStateAction<boolean>> ] }) {
   const [ open, setOpen ] = menu_state;
@@ -35,7 +41,7 @@ function LinkButton({ name, path, clickHandler }: { name: string, path: string, 
 
   const is_active = pathname === path;
 
-  function onLinkClick(event: MouseEvent) {
+  function navigate(event: MouseEvent) {
     if (is_active || is_pending) {
       event.preventDefault();
     } else {
@@ -49,7 +55,8 @@ function LinkButton({ name, path, clickHandler }: { name: string, path: string, 
       to={ path }
       aria-describedby={ detail_id }
       aria-hidden={ is_active }
-      onClick={ onLinkClick }
+      onClick={ navigate }
+      data-active={is_active}
       className={ classNames("link-button", is_active && "bg-royal-blue") }
     >
       <p id={ detail_id } className="sr-only">Navigate to { name }</p>
@@ -59,7 +66,6 @@ function LinkButton({ name, path, clickHandler }: { name: string, path: string, 
 }
 
 export default memo(function Header() {
-  const { user } = useLoaderData<typeof loader>();
   const menu_state = useState(false);
   const [ is_open, setOpen ] = menu_state;
   const post_name = new URLSearchParams(useLocation().search).get("title");
@@ -72,8 +78,6 @@ export default memo(function Header() {
           <nav className="md:flex uppercase tracking-wider ml-1">
             <LinkButton name="home" path="/home" clickHandler={ setOpen } />
             <LinkButton name="post" path="/post" clickHandler={ setOpen } />
-            <LinkButton name="junction" path="/junction" clickHandler={ setOpen } />
-            { user && <LinkButton name="New" path="/new" clickHandler={ setOpen } /> }
           </nav>
           { post_name && (
             <section className="hidden md:inline-flex gap-x-2 font-medium tracking-widest">
@@ -83,7 +87,6 @@ export default memo(function Header() {
           ) }
           <section className="md:flex">
             <ToggleColorSchemeButton />
-            <UploadFileButton />
           </section>
         </menu>
       </div>

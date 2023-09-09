@@ -38,11 +38,7 @@ async function getThemeToggledHeader(request: Request) {
   const session = await theme_storage.getSession(request.headers.get("Cookie"));
   const current_theme = session.get("theme");
 
-  if (!validateTheme(current_theme)) {
-    session.set("theme", "dark");
-  } else {
-    session.set("theme", current_theme === "dark" ? "light" : "dark");
-  }
+  session.set("theme", validateTheme(current_theme) ? current_theme === "dark" ? "light" : "dark" : "dark");
 
   return {
     "Set-Cookie": await theme_storage.commitSession(session),

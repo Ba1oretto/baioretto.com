@@ -5,10 +5,10 @@ import { defer } from "@remix-run/node";
 import { Await, Link, useFetcher, useLoaderData } from "@remix-run/react";
 import classNames from "classnames";
 
-import posts_styles from "~/routes/_post.post._index/posts.css";
+import posts_styles from "~/routes/_content.post._index/posts.css";
 import type { Posts } from "~/util/post.server";
 import { getPosts } from "~/util/post.server";
-import { LoadingSpinner } from "~/routes/_post/route";
+import { LoadingSpinner } from "~/routes/_content/route";
 import { IS_PRODUCTION } from "~/util/variable.server";
 
 export const meta: V2_MetaFunction = () => [

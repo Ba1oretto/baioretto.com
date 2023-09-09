@@ -17,7 +17,7 @@ export function LoadingSpinner() {
   );
 }
 
-export default function PostLayout() {
+export default function ContentLayout() {
   return (
     <main className="mt-32 container mx-auto flex flex-col gap-y-10">
       <Outlet />

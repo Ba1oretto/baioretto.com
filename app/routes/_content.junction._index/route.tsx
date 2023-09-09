@@ -14,7 +14,7 @@ export const loader: LoaderFunction = async () => {
   throw new Error("not implemented😅");
 };
 
-export default function () {
+export default function Junction() {
   const { data } = useLoaderData();
 
   return (

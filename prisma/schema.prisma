@@ -11,51 +11,66 @@ model User {
   id       String @id @default(uuid()) @db.Uuid
   username String @unique
   password String
+  group    Group  @relation(fields: [group_id], references: [id])
+  group_id String @db.Uuid
   posts    Post[]
 
   @@map("user")
 }
 
+model Group {
+  id          String @id @default(uuid()) @db.Uuid
+  slug        String @unique
+  name        String
+  permissions Int
+  users       User[]
+
+  @@map("group")
+}
+
 model Post {
-  id           String    @id @default(uuid()) @db.Uuid
+  id           String      @id @default(uuid()) @db.Uuid
+  slug         String      @unique
   title        String
-  slug         String    @unique
   content      String
   excerpt      String
   raw_content  String
-  published_at DateTime  @default(now())
-  updated_at   DateTime  @updatedAt
-  tags         PostTag[]
-  category     Category  @relation(fields: [category_id], references: [id])
-  category_id  String    @db.Uuid
-  author       User      @relation(fields: [author_id], references: [id])
-  author_id    String    @db.Uuid
+  published_at DateTime    @default(now())
+  updated_at   DateTime    @updatedAt
+  tags         TagOnPost[]
+  category     Category    @relation(fields: [category_id], references: [id])
+  category_id  String      @db.Uuid
+  author       User        @relation(fields: [author_id], references: [id])
+  author_id    String      @db.Uuid
+  permission   Int
 
   @@map("post")
 }
 
 model Tag {
-  id    String    @id @default(uuid()) @db.Uuid
-  name  String    @unique
-  posts PostTag[]
+  id    String      @id @default(uuid()) @db.Uuid
+  slug  String      @unique
+  name  String
+  posts TagOnPost[]
 
   @@map("tag")
 }
 
+model TagOnPost {
+  post_id String @db.Uuid
+  tag_id  String @db.Uuid
+  post    Post   @relation(fields: [post_id], references: [id])
+  tag     Tag    @relation(fields: [tag_id], references: [id])
+
+  @@id([tag_id, post_id])
+  @@map("tag_post")
+}
+
 model Category {
   id    String @id @default(uuid()) @db.Uuid
-  name  String @unique
+  slug  String @unique
+  name  String
   posts Post[]
 
   @@map("category")
-}
-
-model PostTag {
-  id      String @id @default(uuid()) @db.Uuid
-  post    Post   @relation(fields: [post_id], references: [id])
-  tag     Tag    @relation(fields: [tag_id], references: [id])
-  post_id String @db.Uuid
-  tag_id  String @db.Uuid
-
-  @@map("post_tag")
 }

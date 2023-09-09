@@ -1,5 +1,5 @@
 import { db } from "~/util/database.server";
-import { formatDate } from "~/util/util";
+import { formatDate } from "~/util/helper";
 
 interface RawPost {
   id: string;

@@ -1,4 +1,5 @@
-import { createUserSession, login } from "~/util/user.server";
+import { createSessionUser, login, removeSessionUser } from "~/util/user.server";
+import { Routes } from "~/header/Header";
 
 export enum HistoryLevel {
   LOG,
@@ -15,7 +16,11 @@ export interface History {
 
 interface CommandAction {
   name: string,
-  action: (...args: any) => Promise<Omit<History, "username"> & { response?: any } | 0>;
+  action: (...args: any) => Promise<{
+    message?: string,
+    level?: HistoryLevel,
+    response?: any,
+  } | 0>;
 }
 
 const CommandAction: CommandAction[] = [
@@ -25,6 +30,33 @@ const CommandAction: CommandAction[] = [
       message: `available command: ${ CommandAction.map(({ name }) => name).join(", ") }`,
       level: HistoryLevel.LOG,
     }),
+  },
+  {
+    name: "cd",
+    action: async (...[ target_path ]) => {
+      if (typeof target_path != "string") {
+        return {
+          message: "invalid path",
+          level: HistoryLevel.WARNING,
+        };
+      }
+
+      if (!Routes.some(({ path }) => path === target_path)) {
+        return {
+          message: `no such route: ${ target_path }`,
+          level: HistoryLevel.WARNING,
+        };
+      }
+
+      return {
+        response: {
+          status: 302,
+          headers: {
+            Location: target_path,
+          },
+        },
+      };
+    },
   },
   {
     name: "clear",
@@ -44,19 +76,29 @@ const CommandAction: CommandAction[] = [
 
       const user = await login({ username, password });
 
-      if (user == null)
+      if (!user)
         return {
           message: "su: username or password incorrect.",
           level: HistoryLevel.WARNING,
         };
 
-      const headers = await createUserSession(user);
+      const headers = await createSessionUser(user);
 
       return {
         message: `Welcome back ${ user.username }!`,
         level: HistoryLevel.INFO,
         response: {
           headers,
+        },
+      };
+    },
+  },
+  {
+    name: "exit",
+    action: async (...args) => {
+      return {
+        response: {
+          headers: await removeSessionUser(args.at(-2) as Request),
         },
       };
     },

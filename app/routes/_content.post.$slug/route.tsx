@@ -1,8 +1,8 @@
 import type { LinksFunction, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { defer } from "@remix-run/node";
-import viewer_stylesheet from "~/routes/_post.post.$slug/viewer.css";
+import viewer_stylesheet from "~/routes/_content.post.$slug/viewer.css";
 import { Await, useLoaderData } from "@remix-run/react";
-import { LoadingSpinner } from "~/routes/_post/route";
+import { LoadingSpinner } from "~/routes/_content/route";
 import { Suspense } from "react";
 import { getPost } from "~/util/post.server";
 
@@ -43,7 +43,7 @@ export default function PostSlug() {
     <Suspense fallback={ <LoadingSpinner /> }>
       <Await resolve={ post }>
         { post => post ? (
-          <section id="test" className="viewer" dangerouslySetInnerHTML={ { __html: post.content } } />
+          <section className="viewer" dangerouslySetInnerHTML={ { __html: post.content } } />
         ) : (
           <section>TODO handle not found</section>
         ) }

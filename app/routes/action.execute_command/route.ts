@@ -1,8 +1,8 @@
 import type { ActionArgs, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { redirect } from "@remix-run/router";
-import type { History } from "~/terminal/command";
-import CommandAction, { HistoryLevel } from "~/terminal/command";
+import type { History } from "~/routes/action.execute_command/command";
+import CommandAction, { HistoryLevel } from "~/routes/action.execute_command/command";
 
 function getRequired(body: FormData, key: string) {
   const has_value = body.has(key);
@@ -50,15 +50,18 @@ export const action = async ({ request }: ActionArgs) => {
 
     return { screen_history };
   } else {
-    const result = await command_action.action(...command_args, screen_history);
-    result && screen_history.push({
-      username: current_username,
-      pathname: current_pathname,
-      message: result.message,
-      level: result.level,
-    });
+    const result = await command_action.action(...command_args, request, screen_history);
 
-    return json({ screen_history }, result && result.response);
+    if (result && result.message && result.level !== undefined) {
+      screen_history.push({
+        username: current_username,
+        pathname: current_pathname,
+        message: result.message,
+        level: result.level,
+      });
+    }
+
+    return json({ screen_history }, result && result.response && result.response);
   }
 };
 

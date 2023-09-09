@@ -1,0 +1,35 @@
+.action-toggler button {
+  @apply
+  -mb-[1px] py-2 px-4 border border-b-0 rounded-t-md
+  text-xl font-medium -outline-offset-[6px] outline-2
+  border-transparent text-dusky-gray
+  data-[active="true"]:text-inherit data-[active="true"]:border-charcoal-gray data-[active="true"]:bg-abyss-blue;
+}
+
+.editor-wrapper label, .editor-input-wrapper {
+  @apply m-5 rounded-md shadow-aureole-gray focus-within:shadow-aureole-blue-highlight transition-shadow;
+}
+
+.editor-wrapper label[data-highlight] {
+  @apply focus-within:shadow-aureole-gray data-[highlight="true"]:focus-within:shadow-aureole-blue-highlight;
+}
+
+.editor-wrapper label:first-of-type + label {
+  @apply ml-0;
+}
+
+.editor-wrapper label:not(label:first-of-type) + label {
+  @apply mt-0;
+}
+
+.editor-wrapper select, .editor-wrapper input, .editor-wrapper textarea {
+  @apply w-full h-full p-4 rounded-md text-xl outline-none bg-transparent placeholder-dusky-gray placeholder:font-medium;
+}
+
+.editor-wrapper select {
+  @apply appearance-none data-[default]:text-dusky-gray;
+}
+
+.editor-wrapper option {
+  @apply bg-abyss-blue text-warm-gray;
+}

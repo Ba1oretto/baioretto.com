@@ -1,6 +1,4 @@
 .idea
-
-.DS_Store
 node_modules
 
 .cache
@@ -8,9 +6,7 @@ build
 public/build
 .server
 .data
+images
 
 .env
 *.db
-
-note*
-TODO

@@ -1,9 +1,9 @@
 .terminal-container {
-  @apply fixed top-1/2 left-[71%] w-[50vh] h-[40vh] block rounded-lg bg-dark-gray;
+  @apply fixed bottom-[14%] left-[73%] w-[25%] h-[32%] rounded-lg bg-dark-gray;
 }
 
 .terminal-commandline {
-  @apply absolute inset-x-0 top-10 bottom-0 p-2 overflow-y-auto font-medium bg-dark-plum;
+  @apply absolute top-[8%] bottom-0 inset-x-0 p-2 overflow-y-auto font-medium bg-dark-plum;
 }
 
 .terminal-commandline::-webkit-scrollbar-thumb {

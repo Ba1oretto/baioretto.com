@@ -1,25 +1,87 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 
+enum Permission {
+  READ_POST = 1,
+  WRITE_POST = 2,
+  DELETE_POST = 4,
+  VIEW_USERS = 8,
+  EDIT_USER = 16,
+}
+
+enum PermissionGroup {
+  GUEST = Permission.READ_POST,
+  CONTRIBUTOR = Permission.READ_POST | Permission.WRITE_POST,
+  ADMINISTRATOR = Permission.READ_POST | Permission.WRITE_POST | Permission.DELETE_POST | Permission.VIEW_USERS | Permission.EDIT_USER,
+}
+
 const db = new PrismaClient();
 
 (async function () {
-  const password_hash = await bcrypt.genSalt(10).then(salt => bcrypt.hash("Sjm20050406", salt));
-  const barroit = await db.user.create({
+  const group_administrator = await db.group.create({
     data: {
-      username: "barroit",
-      password: password_hash,
+      slug: "administrator",
+      name: "Administrator",
+      permissions: PermissionGroup.ADMINISTRATOR,
     },
   });
 
-  const tags = await Promise.all([ "Assignment", "日本語" ].map(tag_name => db.tag.create({
+  const group_contributor = await db.group.create({
     data: {
-      name: tag_name,
+      slug: "contributor",
+      name: "Contributor",
+      permissions: PermissionGroup.CONTRIBUTOR,
     },
-  })));
+  });
+
+  const group_guest = await db.group.create({
+    data: {
+      slug: "guest",
+      name: "Guest",
+      permissions: PermissionGroup.GUEST,
+    },
+  });
+
+  const user_barroit = await db.user.create({
+    data: {
+      username: "barroit",
+      password: await bcrypt.genSalt(10).then(salt => bcrypt.hash("barroit", salt)),
+      group_id: group_administrator.id,
+    },
+  });
+
+  const user_caizii = await db.user.create({
+    data: {
+      username: "caizii",
+      password: await bcrypt.genSalt(10).then(salt => bcrypt.hash("caizii", salt)),
+      group_id: group_contributor.id,
+    },
+  });
+
+  const tag_assignment = await db.tag.create({
+    data: {
+      slug: "assignment",
+      name: "Assignment",
+    },
+  });
+
+  const tag_japanese = await db.tag.create({
+    data: {
+      slug: "japanese",
+      name: "日本語",
+    },
+  });
+
+  const tag_daily = await db.tag.create({
+    data: {
+      slug: "daily",
+      name: "Daily",
+    },
+  });
 
   const category = await db.category.create({
     data: {
+      slug: "presentation",
       name: "Presentation",
     },
   });
@@ -41,17 +103,32 @@ const db = new PrismaClient();
         "![workspace](/resource/images/tmp_IMG_0904.jpg)\n" +
         "\n" +
         "深夜の景色、それは日常の中の小さな<ruby> 逃避 <rt> とうひ </rt> </ruby>。都市の夜景、家の中の静寂、どちらも心を魅了する魅力がある。一度、深夜の世界を体験して、その魅力を感じてみてはいかがだろうか。\n",
-      author_id: barroit.id,
+      author_id: user_barroit.id,
       category_id: category.id,
+      permission: PermissionGroup.GUEST,
     },
   });
 
-  await Promise.all(tags.map(tag => db.postTag.create({
+  await db.tagOnPost.create({
     data: {
       post_id: post.id,
-      tag_id: tag.id,
+      tag_id: tag_assignment.id,
     },
-  })));
+  });
+
+  await db.tagOnPost.create({
+    data: {
+      post_id: post.id,
+      tag_id: tag_japanese.id,
+    },
+  });
+
+  await db.tagOnPost.create({
+    data: {
+      post_id: post.id,
+      tag_id: tag_daily.id,
+    },
+  });
 })().catch((e) => {
   console.error(e);
   process.exit(1);
